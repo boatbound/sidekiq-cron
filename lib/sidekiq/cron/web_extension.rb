@@ -39,6 +39,17 @@ module Sidekiq
           redirect "#{root_path}cron"
         end
 
+        app.post '/cron/oneoff' do
+          at = params[:at]
+          klass = params[:klass]
+          booking = params[:booking]
+
+          if at && klass && booking
+            klass.classify.constantize.perform_at(DateTime.parse(at), booking.to_i)
+          end
+          redirect "#{root_path}cron"
+        end
+
         #delete schedule
         app.post '/cron/:name/delete' do |name|
           if job = Sidekiq::Cron::Job.find(name)

@@ -7,6 +7,8 @@ gem 'rufus-scheduler', '>= 2.0.24'
 group :development do
   gem "bundler"
   gem "simplecov"
+  gem 'pry'
+  gem 'pry-nav'
 
   gem 'shoulda-context'
   gem "turn"
