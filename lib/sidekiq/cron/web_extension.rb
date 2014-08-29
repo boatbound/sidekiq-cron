@@ -7,7 +7,7 @@ module Sidekiq
         app.settings.locales << File.join(File.expand_path("..", __FILE__), "locales")
 
         #index page of cron jobs
-        app.get '/cron' do   
+        app.get '/cron' do
           view_path    = File.join(File.expand_path("..", __FILE__), "views")
 
           @cron_jobs = Sidekiq::Cron::Job.all
@@ -24,6 +24,17 @@ module Sidekiq
         app.post '/cron/:name/enque' do |name|
           if job = Sidekiq::Cron::Job.find(name)
             job.enque!
+          end
+          redirect "#{root_path}cron"
+        end
+
+        app.post '/cron/schedule' do
+          name = params[:name]
+          cron = params[:cron]
+          klass = params[:klass]
+
+          if name && cron && klass
+            Sidekiq::Cron::Job.create( name: name, cron: cron, klass: klass)
           end
           redirect "#{root_path}cron"
         end

@@ -3,6 +3,27 @@
     <h3><%=t 'CronJobs' %></h3>
   </div>
 </header>
+
+<div>
+  <b>Scheduler</b>
+  <form class="form-inline" role="form" action="<%= root_path %>cron/schedule" method="post">
+    <div class="form-group">
+      <label class="sr-only" for="name">name of job</label>
+      <input type="text" name="name" class="form-control" placeholder="name of job">
+    </div>
+    <div class="form-group">
+      <label class="sr-only" for="cron">cron</label>
+      <input type="text" name="cron" class="form-control" placeholder="cron (e.g. '0 12 * * *')">
+    </div>
+    <div class="form-group">
+      <label class="sr-only" for="klass">klass</label>
+      <input type="text" name="klass" class="form-control" placeholder="klass (worker class name)">
+    </div>
+    <button type="submit" class="btn btn-default">Schedule</button>
+  </form>
+  <br />
+</div>
+
 <% if @cron_jobs.size > 0 %>
 
   <table class="table table-hover table-bordered table-striped table-white">
@@ -57,6 +78,6 @@
     </tbody>
   </table>
 <% else %>
-  <span class='alert alert-success'><%= t('NoCronJobsFound') %></span>
+  <span><%= t('NoCronJobsFound') %></span>
 <% end %>
 
